@@ -105,6 +105,7 @@ venv.bak/
 
 # Misc
 .vscode/
+.DS_Store
 
 # Input
 dataset/*
