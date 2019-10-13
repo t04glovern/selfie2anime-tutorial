@@ -249,6 +249,14 @@ Let's walk through how you can use either of these two solutions for training an
 
 Google Colab is the easist to get started with however it's likely only going to be useful for inference. This is because it's designed for prototyping and the GPU/TPU that is attached to the instance might not always be around. This isn't preferable given we want to train for long periods of time.
 
+To open the sample notebook.ipynb, open the following:
+
+[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/t04glovern/selfie2anime-tutorial/blob/master/notebook.ipynb)
+
+Confirm that the runtime is setup as `Python 3` and when you are ready to train / test, also add a TPU.
+
+![Google Colab change notebook runtime](img/selfie2anime-colab-example-load.png)
+
 ### AWS SageMaker
 
 TODO
