@@ -257,6 +257,12 @@ Confirm that the runtime is setup as `Python 3` and when you are ready to train 
 
 ![Google Colab change notebook runtime](img/selfie2anime-colab-example-load.png)
 
+Following the guide above, copy in your dataset and be sure to change the reference `DATASET_NAME` in the command before running them. When ready, execute all the cells down the page up until `Train`. When you're ready to go, start training.
+
+The results when running the training can be seen below.
+
+![Google Colab training example](img/selfie2anime-colab-example-training.png)
+
 ### AWS SageMaker
 
 TODO
