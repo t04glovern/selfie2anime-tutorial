@@ -1,7 +1,5 @@
 # Building your own UGATIT Model
 
-## Preface
-
 [Selfie2Anime](https://selfie2anime.com/) was a successful use of Image-to-Image translation using [UGATIT](https://github.com/taki0112/UGATIT); a project by Junho Kim, Minjae Kim, Hyeonwoo Kang and Kwanghee Lee. This however isn't the only combination of images that could be swapped. The combinations are literally limitless, and in this post I'd like to describe how you can create your very own alternate variation.
 
 The work that's required to train your own version of this project is described at a high level below:
@@ -10,6 +8,10 @@ The work that's required to train your own version of this project is described 
 * [Dataset Collection & Preparation](#Dataset-Collection-&-Preparation)
 * [Model Training](#Model-Training)
 * [Model Inference](#Model-Inference)
+* [Running in the Cloud](#Running-in-the-cloud)
+  * [Google Colab (Inference Only)](#Google-Colab)
+  * [AWS SageMaker](#AWS-SageMaker)
+  * [Google AI Platform Notebooks](#Google-AI-Platform-Notebooks)
 
 ---
 
@@ -124,7 +126,7 @@ Let's walk through an example of how the datsets for selfie2anime was compiled. 
 * Selfie Dataset - [https://www.crcv.ucf.edu/data/Selfie](https://www.crcv.ucf.edu/data/Selfie)
 * Anime Dataset - [https://www.gwern.net/Danbooru2018](https://www.gwern.net/Danbooru2018)
 
-These datasets are much bigger then was necessary so a portion of each were taken for each. 
+These datasets are much bigger then was necessary so a portion of each were taken for each.
 
 **NOTE**: An important thing to keep in mind is that only female anime characters were used. This means a lot of hand picked items had to be singled out. When deciding on what to use in your dataset ensure there's some level of consistency.
 
@@ -138,4 +140,119 @@ These datasets are much bigger then was necessary so a portion of each were take
 
 We should now be in a good position to begin training out model. **This process is very time consuming** but rewarding.
 
+To begin training the model we can run the following command:
+
+```bash
+python main.py \
+    --dataset YOUR_DATASET_NAME \
+    --phase train \
+    --light True
+```
+
+**NOTE**: *Including the `light` flag is really important here, as the algorithm was built to run on a very powerful system with lots of video memory. I'm certain that you'll not have the requirements to train without `light` however feel free to try.*
+
+There are a variety of different parameters that can also be passed in. They can be found at the top of `main.py`; however I've pasted a couple important ones below
+
+```python
+parser.add_argument('--phase',      default='train',        help='[train / test]')
+parser.add_argument('--light',      default=False,          help='[full version / light version]')
+parser.add_argument('--dataset',    default='selfie2anime', help='dataset_name')
+parser.add_argument('--epoch',      default=100,            help='The number of epochs to run')
+parser.add_argument('--iteration',  default=10000,          help='The number of training iterations')
+parser.add_argument('--batch_size', default=1,              help='The size of batch size')
+parser.add_argument('--print_freq', default=1000,           help='The number of image_print_freq')
+parser.add_argument('--save_freq',  default=1000,           help='The number of ckpt_save_freq')
+parser.add_argument('--decay_flag', default=True,           help='The decay_flag')
+parser.add_argument('--decay_epoch',default=50,             help='decay epoch')
+```
+
+Training should begin after a short period of time. You should see an output line the following indicating that the process is running.
+
+```bash
+# Total bytes of variables: 536148544
+#  [*] Reading checkpoints...
+#  [*] Failed to find a checkpoint
+#  [!] Load failed...
+# Epoch: [ 0] [    0/10000] time: 36.7933 d_loss: 10.07452965, g_loss: 4296.04980469
+# Epoch: [ 0] [    1/10000] time: 37.4076 d_loss: 8.61443043, g_loss: 3150.35839844
+# Epoch: [ 0] [    2/10000] time: 38.0224 d_loss: 8.07216549, g_loss: 3547.32763672
+# Epoch: [ 0] [    3/10000] time: 38.6383 d_loss: 8.33526993, g_loss: 2290.56347656
+# Epoch: [ 0] [    4/10000] time: 39.2726 d_loss: 7.67077017, g_loss: 2063.63549805
+# Epoch: [ 0] [    5/10000] time: 39.9149 d_loss: 7.70433044, g_loss: 2031.88806152
+# Epoch: [ 0] [    6/10000] time: 40.5567 d_loss: 7.72997952, g_loss: 1928.70324707
+# Epoch: [ 0] [    7/10000] time: 41.2098 d_loss: 7.84641171, g_loss: 2091.36791992
+# Epoch: [ 0] [    8/10000] time: 41.8431 d_loss: 8.77949142, g_loss: 2413.52807617
+# Epoch: [ 0] [    9/10000] time: 42.4762 d_loss: 8.61334419, g_loss: 2224.50952148
+# Epoch: [ 0] [   10/10000] time: 43.1270 d_loss: 8.99942780, g_loss: 2308.36425781
+# Epoch: [ 0] [   11/10000] time: 43.7578 d_loss: 8.61170959, g_loss: 2720.20214844
+# Epoch: [ 0] [   12/10000] time: 44.3873 d_loss: 8.42855263, g_loss: 2132.31250000
+# Epoch: [ 0] [   13/10000] time: 45.0359 d_loss: 8.33146286, g_loss: 1888.32006836
+```
+
+After each 100 interations, UGATIT will generate some samples that can be viewed in the `samples` folder. Obviously initial results aren't going to be fantastic, however the samples allows you to view progress while the training occurs.
+
+![Selfie2Anime Training Examples at 1 Epoch](img/selfie2anime-training-example.png)
+
+With the settings above a checkpoint is created every 1000 iterations as well. A checkpoint is a state that inference can be performed on, or resumed from.
+
+### Resume Training
+
+If you need to resume training, or potentially you'd like to try transfer learning and continuing to train an existing model; then the process of resuming training is very simple.
+
+Re-run the training command with the same parameters as before. You'll notice that if you change parameters then the folder name within the `checkpoint`, `samples`, `results` and `logs` folder all change.
+
+Example of light vs non-light training:
+
+* **Light** - UGATIT_light_selfie2anime_lsgan_4resblock_6dis_1_1_10_10_1000_sn_smoothing
+* **Non-Light** - UGATIT_selfie2anime_lsgan_4resblock_6dis_1_1_10_10_1000_sn_smoothing
+
+**NOTE**: *You can obviously get around this by just copying in the existing checkpoint files to the new folder (with new parameters) if you need to.*
+
+---
+
 ## Model Inference
+
+---
+
+Lets pretend you've spent a bunch of time training your model and now you'd like to perform interence against it. The process for doing this can be kicked off with a commmand similar to the one below:
+
+```bash
+python main.py \
+    --dataset YOUR_DATASET_NAME \
+    --phase test \
+    --light True
+```
+
+Your parameters are going to define which folder will be checked for a matching checkpoint, so ensure its the same as your training parameters.
+
+The `test` will use the images in the `dataset/DATASET_NAME/testA` and `testB` folders.
+
+### Selfie to Anime at 100 Epochs
+
+![Selfie2Anime Training Examples at 100 Epochs](img/selfie2anime-testing-example.png)
+
+### Anime to Selfie at 100 Epochs
+
+![Selfie2Anime Training Examples at 100 Epochs](img/anime2selfie-testing-example.png)
+
+## Running in the Cloud
+
+For people who haven't got access to a desktop system or server with a GPU, then there are a couple other options that are available to you.
+
+* [AWS SageMaker](https://aws.amazon.com/sagemaker/)
+* [Google AI Platform Notebooks](https://cloud.google.com/ai-platform-notebooks/)
+* [Google Colab](https://colab.research.google.com)
+
+Let's walk through how you can use either of these two solutions for training and running inference.
+
+### Google Colab (Inference Only)
+
+Google Colab is the easist to get started with however it's likely only going to be useful for inference. This is because it's designed for prototyping and the GPU/TPU that is attached to the instance might not always be around. This isn't preferable given we want to train for long periods of time.
+
+### AWS SageMaker
+
+TODO
+
+### Google AI Platform Notebooks
+
+TODO
