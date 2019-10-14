@@ -9,7 +9,7 @@ The work that's required to train your own version of this project is described 
 * [Model Training](#Model-Training)
 * [Model Inference](#Model-Inference)
 * [Running in the Cloud](#Running-in-the-cloud)
-  * [Google Colab (Inference Only)](#Google-Colab)
+  * [Google Colab (Inference Only)](#Google-Colab-(Inference-Only))
   * [AWS SageMaker](#AWS-SageMaker)
   * [Google AI Platform Notebooks](#Google-AI-Platform-Notebooks)
 
@@ -243,9 +243,13 @@ For people who haven't got access to a desktop system or server with a GPU, then
 * [Google AI Platform Notebooks](https://cloud.google.com/ai-platform-notebooks/)
 * [Google Colab](https://colab.research.google.com)
 
-Let's walk through how you can use either of these two solutions for training and running inference.
+Let's walk through how you can use either of these solutions for training and (or) running inference.
+
+---
 
 ### Google Colab (Inference Only)
+
+---
 
 Google Colab is the easist to get started with however it's likely only going to be useful for inference. This is because it's designed for prototyping and the GPU/TPU that is attached to the instance might not always be around. This isn't preferable given we want to train for long periods of time.
 
@@ -263,10 +267,88 @@ The results when running the training can be seen below.
 
 ![Google Colab training example](img/selfie2anime-colab-example-training.png)
 
+---
+
 ### AWS SageMaker
 
-TODO
+---
+
+AWS SageMaker is a platform for running Notebooks. We'll quickly go through the process of setting up a new notebook with permissions to an S3 bucket that might contain a dataset or a model.
+
+Navigate to the SageMaker portal and create a new notebook. It will prompt you for a number of settings:
+
+1. **Notebook instance settings**
+
+    Start off defining a name and Notebook instance type. The cost for different types differs based on requirements however you'll need an `ml.pX` instance that supports Accelerated computing.
+
+    ![AWS SageMaker Notebook instance settings](img/selfie2anime-aws-sagemaker-settings-01.png)
+
+    More information about pricing can be found [here](https://aws.amazon.com/sagemaker/pricing/).
+
+    **NOTE**: *You might also need to enable the use of GPU compute through a support request ticket. There is no way around this unfortunately; wait times can vary.*
+
+2. **Permissions and encryption**
+
+    Permissions can be setup for the notebook using IAM. Click create new Role to get started defining a new custom role.
+
+    ![AWS SageMaker Permissions and encryption](img/selfie2anime-aws-sagemaker-settings-02.png)
+
+    The custom role here states that the bucket `devopstar` will be available to the notebook. This is a bucket that I own with some of my datasets in it.
+
+    ![AWS SageMaker Notebook instance settings](img/selfie2anime-aws-sagemaker-settings-03.png)
+
+3. **Notebook Git Repositories**
+
+    Finally we can define the Git Repo that should be pulled down and available within the instance on boot.
+
+    We specify the repository: [https://github.com/t04glovern/selfie2anime-tutorial](https://github.com/t04glovern/selfie2anime-tutorial)
+
+    ![AWS SageMaker Notebook instance settings](img/selfie2anime-aws-sagemaker-settings-04.png)
+
+Once the notebook instance is created, open it in JupyterLab and select `notebook.ipynb`.
+
+![AWS SageMaker Notebook Open JupyterLab](img/selfie2anime-aws-sagemaker-open-jupyter.png)
+
+When you open the `notebook.ipynb` you will be prompted for the kernel. Select `conda_tensorflow_p36`:
+
+![AWS SageMaker Notebook Open JupyterLab](img/selfie2anime-aws-sagemaker-jupyter-kernel.png)
+
+When the kernel is connected you can begin to use the Notebook.
+
+**NOTE**: *When running this notebook, you will not need to Git Repo clone (the first new commands).*
+
+**IMPORTANT**: When you are done using the Notebook, make sure to stop it and delete it. This can be done from the Notebook Instance screen.
+
+---
 
 ### Google AI Platform Notebooks
 
-TODO
+---
+
+Google AI Platform has its very own Notebook instances that can be used to run our notebooks. To get started [navigate to the Notebook Instance console](https://console.cloud.google.com/ai-platform/notebooks) and create a new instance
+
+![Google AI Platform Notebooks Create](img/selfie2anime-google-ai-notebooks-create-01.png)
+
+Ensure to create a TensorFlow 1.14 (not TensorFlow 2.0) notebook with a Tesla K80 attached.
+
+![Google AI Platform Notebook Customize](img/selfie2anime-google-ai-notebooks-create-02.png)
+
+When customizing the notebook also make sure that the checkbox for **Installing NVIDIA GPU Drivers** is checked.
+
+Once the notebook is ready, you can open up the instance by clicking `Open JupyterLab`.
+
+![Google AI Platform Notebook Open Jupyter Lab](img/selfie2anime-google-ai-notebooks-create-03.png)
+
+Then click the Git symbol in the navbar and put in the repo you want to clone into the workspace.
+
+In this case it's [https://github.com/t04glovern/selfie2anime-tutorial](https://github.com/t04glovern/selfie2anime-tutorial)
+
+![Google AI Platform Notebook Clone Repo](img/selfie2anime-google-ai-notebooks-clone.png)
+
+Finally open `notebook.ipynb` in the cloned repo and select `Python 3` as the kernel
+
+![Google AI Platform Notebook Kernel](img/selfie2anime-google-ai-notebooks-kernel.png)
+
+**NOTE**: *When running this notebook, you will not need to Git Repo clone (the first new commands).*
+
+**IMPORTANT**: When you are done using the Notebook, make sure to stop it and delete it. This can be done from the Notebook Instance screen. The cost of running these notebooks is **US$329.84 monthly, $0.452 hourly**.
