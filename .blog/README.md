@@ -9,7 +9,7 @@ The work that's required to train your own version of this project is described 
 * [Model Training](#Model-Training)
 * [Model Inference](#Model-Inference)
 * [Running in the Cloud](#Running-in-the-cloud)
-  * [Google Colab (Inference Only)](#Google-Colab-(Inference-Only))
+  * [Google Colab (Inference Only)](#Google-Colab-Inference-Only)
   * [AWS SageMaker](#AWS-SageMaker)
   * [Google AI Platform Notebooks](#Google-AI-Platform-Notebooks)
 
@@ -247,7 +247,7 @@ Let's walk through how you can use either of these solutions for training and (o
 
 ---
 
-### Google Colab (Inference Only)
+### Google Colab Inference Only
 
 ---
 
@@ -317,7 +317,7 @@ When the kernel is connected you can begin to use the Notebook.
 
 **NOTE**: *When running this notebook, you will not need to Git Repo clone (the first new commands).*
 
-**IMPORTANT**: When you are done using the Notebook, make sure to stop it and delete it. This can be done from the Notebook Instance screen.
+**IMPORTANT**: When you are done using the Notebook, make sure to stop it and delete it. This can be done from the Notebook Instance screen. The cost of running these notebooks is **US$329.84 monthly, $0.452 hourly**.
 
 ---
 
