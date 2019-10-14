@@ -285,6 +285,8 @@ Navigate to the SageMaker portal and create a new notebook. It will prompt you f
 
     More information about pricing can be found [here](https://aws.amazon.com/sagemaker/pricing/).
 
+    Also ensure that you increase the Volume size so that the model actually fits on the instance.
+
     **NOTE**: *You might also need to enable the use of GPU compute through a support request ticket. There is no way around this unfortunately; wait times can vary.*
 
 2. **Permissions and encryption**
