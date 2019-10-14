@@ -1,5 +1,7 @@
 # UGATIT - Model Training Tutorial
 
+Selfie2Anime was a successful use of Image-to-Image translation using UGATIT. In this post we learn how to setup a development environment capable of running UGATIT, then train out own variation of a model.
+
 Detailed tutorial for training and inference are outlined in the [blog](.blog/README.md)
 
 ## Setup
