@@ -23,7 +23,7 @@ The work that's required to train your own version of this project is described 
 
 You should be able to make use of either AWS SageMaker or Google Colab, however for people who are planning on training or performing inference locally the following requirements are good to have setup
 
-* Clone the tutorial repository at [https://github.com/t04glovern/x2x-tutorial](https://github.com/t04glovern/x2x-tutorial)
+* Clone the tutorial repository at [https://github.com/t04glovern/selfie2anime-tutorial](https://github.com/t04glovern/selfie2anime-tutorial)
 * [AWS CLI Setup](https://aws.amazon.com/cli/) and authenticated with an account (Optional)
 * [GCP SDK Setup](https://cloud.google.com/sdk/) and authenticated with a project (Optional)
 * Python Environment:
