@@ -23,7 +23,7 @@ The work that's required to train your own version of this project is described 
 
 You should be able to make use of either AWS SageMaker or Google Colab, however for people who are planning on training or performing inference locally the following requirements are good to have setup
 
-* Clone the tutorial respository at [https://github.com/t04glovern/x2x-tutorial](https://github.com/t04glovern/x2x-tutorial)
+* Clone the tutorial repository at [https://github.com/t04glovern/x2x-tutorial](https://github.com/t04glovern/x2x-tutorial)
 * [AWS CLI Setup](https://aws.amazon.com/cli/) and authenticated with an account (Optional)
 * [GCP SDK Setup](https://cloud.google.com/sdk/) and authenticated with a project (Optional)
 * Python Environment:
@@ -40,7 +40,7 @@ The following steps cover each of the different variations of development enviro
 
 #### Local Environment [Requirements]
 
-If you are running locally open up a shell and run one of the following sets of commands.
+If you are running locally; open up a shell and run (one of) the following sets of commands.
 
 **NOTE**: *Depending on if you decided to use Anaconda or not will define what commands to use*
 
@@ -111,7 +111,7 @@ paths = [
 ]
 ```
 
-Once you have images in the four folders above you can run the following python file to resize all the images down to 256*256
+Once you have images in the four folders above you can run the following python file to resize all the images down to 256*256.
 
 ```python
 python resize.py
@@ -119,14 +119,14 @@ python resize.py
 
 ### Selfie2Anime Example
 
-Let's walk through an example of how the datsets for selfie2anime was compiled. We needed two datasets:
+Let's walk through an example of how the datasets for selfie2anime was compiled. We needed two datasets:
 
 **NOTE**: *I can't directly provide these datasets to use for Licensing reasons, however you are able to download them yourself from the links*.
 
 * Selfie Dataset - [https://www.crcv.ucf.edu/data/Selfie](https://www.crcv.ucf.edu/data/Selfie)
 * Anime Dataset - [https://www.gwern.net/Danbooru2018](https://www.gwern.net/Danbooru2018)
 
-These datasets are much bigger then was necessary so a portion of each were taken for each.
+These datasets are much bigger than was necessary so a portion of each were taken for each.
 
 **NOTE**: An important thing to keep in mind is that only female anime characters were used. This means a lot of hand picked items had to be singled out. When deciding on what to use in your dataset ensure there's some level of consistency.
 
@@ -189,7 +189,7 @@ Training should begin after a short period of time. You should see an output lin
 # Epoch: [ 0] [   13/10000] time: 45.0359 d_loss: 8.33146286, g_loss: 1888.32006836
 ```
 
-After each 100 interations, UGATIT will generate some samples that can be viewed in the `samples` folder. Obviously initial results aren't going to be fantastic, however the samples allows you to view progress while the training occurs.
+After each 100 iterations, UGATIT will generate some samples that can be viewed in the `samples` folder. Obviously initial results aren't going to be fantastic, however the samples allows you to view progress while the training occurs.
 
 ![Selfie2Anime Training Examples at 1 Epoch](img/selfie2anime-training-example.png)
 
@@ -214,7 +214,7 @@ Example of light vs non-light training:
 
 ---
 
-Lets pretend you've spent a bunch of time training your model and now you'd like to perform interence against it. The process for doing this can be kicked off with a commmand similar to the one below:
+Let's pretend you've spent a bunch of time training your model and now you'd like to perform inference against it. The process for doing this can be kicked off with a command similar to the one below:
 
 ```bash
 python main.py \
@@ -223,7 +223,7 @@ python main.py \
     --light True
 ```
 
-Your parameters are going to define which folder will be checked for a matching checkpoint, so ensure its the same as your training parameters.
+Your parameters are going to define which folder will be checked for a matching checkpoint, so ensure it's the same as the training parameters.
 
 The `test` will use the images in the `dataset/DATASET_NAME/testA` and `testB` folders.
 
@@ -233,7 +233,7 @@ The `test` will use the images in the `dataset/DATASET_NAME/testA` and `testB` f
 
 ### Anime to Selfie at 100 Epochs
 
-![Selfie2Anime Training Examples at 100 Epochs](img/anime2selfie-testing-example.png)
+![Anime2Selfie Training Examples at 100 Epochs](img/anime2selfie-testing-example.png)
 
 ## Running in the Cloud
 
@@ -251,9 +251,9 @@ Let's walk through how you can use either of these solutions for training and (o
 
 ---
 
-Google Colab is the easist to get started with however it's likely only going to be useful for inference. This is because it's designed for prototyping and the GPU/TPU that is attached to the instance might not always be around. This isn't preferable given we want to train for long periods of time.
+Google Colab is the easiest to get started with however it's likely only going to be useful for inference. This is because it's designed for prototyping and the GPU/TPU that is attached to the instance might not always be around. This isn't preferable given we want to train for long periods of time.
 
-To open the sample notebook.ipynb, open the following:
+To open the sample `notebook.ipynb`, open the following:
 
 [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/t04glovern/selfie2anime-tutorial/blob/master/notebook.ipynb)
 
@@ -297,7 +297,7 @@ Navigate to the SageMaker portal and create a new notebook. It will prompt you f
 
     The custom role here states that the bucket `devopstar` will be available to the notebook. This is a bucket that I own with some of my datasets in it.
 
-    ![AWS SageMaker Notebook instance settings](img/selfie2anime-aws-sagemaker-settings-03.png)
+    ![AWS SageMaker Notebook Custom IAM](img/selfie2anime-aws-sagemaker-settings-03.png)
 
 3. **Notebook Git Repositories**
 
@@ -305,7 +305,7 @@ Navigate to the SageMaker portal and create a new notebook. It will prompt you f
 
     We specify the repository: [https://github.com/t04glovern/selfie2anime-tutorial](https://github.com/t04glovern/selfie2anime-tutorial)
 
-    ![AWS SageMaker Notebook instance settings](img/selfie2anime-aws-sagemaker-settings-04.png)
+    ![AWS SageMaker Notebook Git Repositories](img/selfie2anime-aws-sagemaker-settings-04.png)
 
 Once the notebook instance is created, open it in JupyterLab and select `notebook.ipynb`.
 
@@ -313,7 +313,7 @@ Once the notebook instance is created, open it in JupyterLab and select `noteboo
 
 When you open the `notebook.ipynb` you will be prompted for the kernel. Select `conda_tensorflow_p36`:
 
-![AWS SageMaker Notebook Open JupyterLab](img/selfie2anime-aws-sagemaker-jupyter-kernel.png)
+![AWS SageMaker Notebook Set Kernel](img/selfie2anime-aws-sagemaker-jupyter-kernel.png)
 
 When the kernel is connected you can begin to use the Notebook.
 
@@ -335,7 +335,7 @@ Ensure to create a TensorFlow 1.14 (not TensorFlow 2.0) notebook with a Tesla K8
 
 ![Google AI Platform Notebook Customize](img/selfie2anime-google-ai-notebooks-create-02.png)
 
-When customizing the notebook also make sure that the checkbox for **Installing NVIDIA GPU Drivers** is checked.
+When customising the notebook also make sure that the checkbox for **Installing NVIDIA GPU Drivers** is checked.
 
 Once the notebook is ready, you can open up the instance by clicking `Open JupyterLab`.
 
