@@ -62,12 +62,32 @@ python main.py --dataset YOUR_DATASET_NAME --phase test
 
 ### Test Video
 
-Make sure to set your video device in the `State` class of `main.py` if you have a unique setup. 
+Make sure to set your video device in the `State` class of `main.py` if you have a unique setup.
 
 By default it'll use the first video device attached
 
 ```bash
-python main.py --dataset YOUR_DATASET_NAME --phase video
+python main.py --dataset selfie2anime --phase video
+```
+
+## Common Errors
+
+### No module named 'tensorflow.contrib'
+
+Version 2.0 of Tensorflow isn't supported, you might need to change the `environment.yaml` to the following
+
+```yaml
+name: UGATIT
+dependencies:
+  - python=3.5
+  - matplotlib
+  - numpy
+  - pip
+  - pip:
+    - opencv-python
+    - Pillow
+#    - tensorflow==1.15 # CPU support
+    - tensorflow-gpu==1.15
 ```
 
 ## Citation
