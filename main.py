@@ -1,9 +1,28 @@
-from UGATIT import UGATIT
 import argparse
+import threading
+import time
+from UGATIT import UGATIT
 from utils import *
 
-"""parsing and configuration"""
+class State:
+    # Device ID (typically 0)
+    video_device_id = 0
+    # can alternatively be a RTSP endpoint
+    # video_device_id = 'http://192.168.0.1:8080/video/mjpeg'
 
+    # Local render scale factor.
+    display_scale = 3
+
+    # Current frame.
+    frame = None
+
+    # When changed to false, program will be terminated.
+    running = True
+
+# Init state for camera
+state = State()
+
+"""parsing and configuration"""
 def parse_args():
     desc = "Tensorflow implementation of U-GAT-IT"
     parser = argparse.ArgumentParser(description=desc)
@@ -77,12 +96,68 @@ def check_args(args):
         print('batch size must be larger than or equal to one')
     return args
 
+"""read frame from camera"""
+def read_frame_thread():
+    try:
+        capture = cv2.VideoCapture(state.video_device_id)
+        while state.running:
+            _, frame = capture.read()
+            state.frame = frame
+            time.sleep(0.01)
+
+    except Exception as e:
+        print(e)
+        state.running = False
+
+"""process any key presses"""
+def process_events():
+    if cv2.waitKey(1) & 0xff == 27:
+        state.running = False
+
+"""video stream"""
+def video(args):
+    # open session
+    with tf.Session(config=tf.ConfigProto(allow_soft_placement=True)) as sess:
+        gan = UGATIT(sess, args)
+ 
+        # build graph
+        gan.build_model()
+ 
+        # show network architecture
+        show_all_variables()
+
+        # load model for use in video stream
+        gan.video_inference_init()
+
+        # Run frame thread
+        threading.Thread(target=read_frame_thread).start()
+
+        while state.running:
+            if state.frame is None:
+                time.sleep(0.01)
+                continue
+
+            # Get recent frame
+            frame = state.frame
+
+            # generate image
+            gen_image = gan.video_inference(frame)
+
+            # display frame
+            cv2.imshow('frame', cv2.resize(gen_image, None, fx=state.display_scale, fy=state.display_scale))
+
+            # handle key press events
+            process_events()
+
 """main"""
 def main():
     # parse arguments
     args = parse_args()
     if args is None:
-      exit()
+        exit()
+
+    if args.phase == 'video':
+        video(args)
 
     # open session
     with tf.Session(config=tf.ConfigProto(allow_soft_placement=True)) as sess:

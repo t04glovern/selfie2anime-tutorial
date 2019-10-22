@@ -663,3 +663,20 @@ class UGATIT(object) :
                     '../..' + os.path.sep + image_path), self.img_size, self.img_size))
             index.write("</tr>")
         index.close()
+
+    def video_inference_init(self):
+        tf.global_variables_initializer().run()
+
+        self.saver = tf.train.Saver()
+        could_load, checkpoint_counter = self.load(self.checkpoint_dir)
+
+        if could_load:
+            print(" [*] Load SUCCESS")
+        else:
+            print(" [!] Load failed...")
+
+    def video_inference(self, img):
+        sample_image = np.asarray(load_img(img))
+        fake_img = self.sess.run(self.test_fake_B, feed_dict={self.test_domain_A: sample_image})
+        img_save = video_save_images(fake_img, [1, 1])
+        return img_save

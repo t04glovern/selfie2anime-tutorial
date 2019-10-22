@@ -60,6 +60,16 @@ If the memory of gpu is **not sufficient**, set `--light` to **True**
 python main.py --dataset YOUR_DATASET_NAME --phase test
 ```
 
+### Test Video
+
+Make sure to set your video device in the `State` class of `main.py` if you have a unique setup. 
+
+By default it'll use the first video device attached
+
+```bash
+python main.py --dataset YOUR_DATASET_NAME --phase video
+```
+
 ## Citation
 
 If you find the code useful for your research, please cite their paper:
