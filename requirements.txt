@@ -2,4 +2,5 @@ opencv-python
 matplotlib 
 numpy
 Pillow
+flask
 tensorflow-gpu==1.14

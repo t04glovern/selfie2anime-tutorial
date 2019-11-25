@@ -67,7 +67,21 @@ Make sure to set your video device in the `State` class of `main.py` if you have
 By default it'll use the first video device attached
 
 ```bash
-python main.py --dataset selfie2anime --phase video
+python main.py --dataset YOUR_DATASET_NAME --phase video
+```
+
+### Test Process Endpoint [WIP]
+
+```bas
+python main.py --dataset YOUR_DATASET_NAME --phase web
+```
+
+POST to `http://0.0.0.0:5000/process` with the following data format
+
+```json
+{
+  "image": "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD...."
+}
 ```
 
 ## Common Errors

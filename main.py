@@ -1,6 +1,10 @@
 import argparse
 import threading
 import time
+import base64
+import json
+from flask import Flask, request, jsonify
+
 from UGATIT import UGATIT
 from utils import *
 
@@ -21,6 +25,12 @@ class State:
 
 # Init state for camera
 state = State()
+
+# Flask app
+app = Flask(__name__)
+
+# Global ref for GAN
+gan_ref = None
 
 """parsing and configuration"""
 def parse_args():
@@ -149,10 +159,34 @@ def video(args):
             # handle key press events
             process_events()
 
+"""request endpoint"""
+@app.route('/process', methods=['POST'])
+def process():
+    _, encoded = request.json['image'].split(",", 1)
+    image_bytes = base64.b64decode(encoded)
+
+    #  convert binary data to numpy array
+    nparr = np.frombuffer(image_bytes, np.uint8)
+
+    #  let opencv decode image to correct format
+    img = cv2.imdecode(nparr, cv2.IMREAD_ANYCOLOR)
+
+    # generate image
+    global gan_ref
+    gen_image = gan_ref.video_inference(img)
+
+    _, buffer = cv2.imencode('.jpg', gen_image)
+    buffer_text = base64.b64encode(buffer)
+
+    return jsonify(
+        selfie=str(buffer_text)
+    )
+
 """main"""
 def main():
     # parse arguments
     args = parse_args()
+
     if args is None:
         exit()
 
@@ -169,11 +203,20 @@ def main():
         # show network architecture
         show_all_variables()
 
-        if args.phase == 'train' :
+        if args.phase == 'web':
+            gan.video_inference_init()
+
+            global gan_ref
+            gan_ref = gan
+
+            app.run(host="0.0.0.0", port=5000)
+            exit()
+
+        if args.phase == 'train':
             gan.train()
             print(" [*] Training finished!")
 
-        if args.phase == 'test' :
+        if args.phase == 'test':
             gan.test()
             print(" [*] Test finished!")
 
