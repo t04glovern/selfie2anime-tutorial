@@ -182,6 +182,13 @@ def process():
         selfie=str(buffer_text)
     )
 
+"""request endpoint"""
+@app.route('/health', methods=['GET'])
+def health():
+    return jsonify(
+        status=200
+    )
+
 """main"""
 def main():
     # parse arguments
