@@ -19,11 +19,11 @@ export class FargateCluster extends cdk.Construct {
       vpc: props.vpc,
       clusterName: props.name,
       capacity: {
-        instanceType: new InstanceType('c5.2xlarge'),
-        desiredCapacity: 2,
+        instanceType: new InstanceType('c5.xlarge'),
+        desiredCapacity: 1,
         maxCapacity: 2,
-        minCapacity: 2,
-        spotPrice: '0.1637',
+        minCapacity: 1,
+        spotPrice: '0.0707',
         spotInstanceDraining: true
       }
     });

@@ -29,7 +29,7 @@ export class FargateService extends cdk.Construct {
       targetType: elbv2.TargetType.INSTANCE,
       healthCheck: {
         path: '/health',
-        port: props.port.toString(),
+        port: props.containerPort.toString(),
         protocol: elbv2.Protocol.HTTP,
         interval: Duration.seconds(60),
         timeout: Duration.seconds(5)
@@ -57,8 +57,8 @@ export class FargateService extends cdk.Construct {
     fargateTaskDefinition
       .addContainer('container', {
         image: ecs.ContainerImage.fromEcrRepository(repo),
-        memoryLimitMiB: 8192,
-        cpu: 4096,
+        memoryLimitMiB: 4096,
+        cpu: 1024,
         logging,
         entryPoint: [
           'python3'
