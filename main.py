@@ -2,7 +2,6 @@ import argparse
 import threading
 import time
 import base64
-import json
 from flask import Flask, request, jsonify
 
 from UGATIT import UGATIT
