@@ -57,7 +57,8 @@ export class FargateService extends cdk.Construct {
     fargateTaskDefinition
       .addContainer('container', {
         image: ecs.ContainerImage.fromEcrRepository(repo),
-        memoryLimitMiB: 4096,
+        memoryReservationMiB: 4096,
+        memoryLimitMiB: 8192,
         cpu: 1024,
         logging,
         entryPoint: [
@@ -66,7 +67,7 @@ export class FargateService extends cdk.Construct {
         command: [
           'main.py',
           '--dataset',
-          ` ${props.serviceName}`,
+          `${props.serviceName}`,
           '--phase',
           'web'
         ],

@@ -44,7 +44,7 @@ class State:
     gan_endpoint = 'http://api.selfie2anime.com/process'
 
     # Local render scale factor.
-    display_scale = 1
+    display_scale = 3
 
     # Current frame.
     frame = None
@@ -79,7 +79,10 @@ def send_frame_thread():
             # Get recent frame
             frame = state.frame
 
-            _, buffer = cv2.imencode('.jpg', frame)
+            # Resize
+            resize_frame = cv2.resize(frame, (256, 256), interpolation=cv2.INTER_AREA)
+
+            _, buffer = cv2.imencode('.jpg', resize_frame)
             frame_as_text = base64.b64encode(buffer)
 
             data = {
@@ -121,8 +124,8 @@ def stream():
     # Run frame thread
     threading.Thread(target=read_frame_thread).start()
 
-    # Send frame every 10 seconds
-    rt = RepeatedTimer(10, send_frame_thread)
+    # Send frame every 5 seconds
+    rt = RepeatedTimer(5, send_frame_thread)
 
     while state.running:
         if state.frame is None:

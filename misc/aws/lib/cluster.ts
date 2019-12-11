@@ -1,6 +1,6 @@
 import ecs = require('@aws-cdk/aws-ecs');
 import cdk = require('@aws-cdk/core');
-import { Vpc, InstanceType } from '@aws-cdk/aws-ec2';
+import { Vpc, InstanceType, SubnetType } from '@aws-cdk/aws-ec2';
 
 import { FargateService } from './service';
 
@@ -19,11 +19,11 @@ export class FargateCluster extends cdk.Construct {
       vpc: props.vpc,
       clusterName: props.name,
       capacity: {
-        instanceType: new InstanceType('c5.xlarge'),
+        instanceType: new InstanceType('r5a.large'),
         desiredCapacity: 1,
         maxCapacity: 2,
         minCapacity: 1,
-        spotPrice: '0.0707',
+        spotPrice: '0.0379',
         spotInstanceDraining: true
       }
     });
