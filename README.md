@@ -100,8 +100,8 @@ dependencies:
   - pip:
     - opencv-python
     - Pillow
-#    - tensorflow==1.15 # CPU support
-    - tensorflow-gpu==1.15
+#    - tensorflow==1.15.0 # CPU support
+    - tensorflow-gpu==1.15.0
 ```
 
 ## Citation

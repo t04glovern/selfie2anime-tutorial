@@ -1,10 +1,11 @@
 name: UGATIT
 dependencies:
   - python=3.5
-  - tensorflow-gpu
   - matplotlib
   - numpy
   - pip
   - pip:
     - opencv-python
     - Pillow
+#    - tensorflow==1.15.0 # CPU support
+    - tensorflow-gpu==1.15.0

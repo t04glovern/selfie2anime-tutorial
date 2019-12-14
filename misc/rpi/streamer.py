@@ -44,7 +44,7 @@ class State:
     gan_endpoint = 'http://api.selfie2anime.com/process'
 
     # Local render scale factor.
-    display_scale = 3
+    display_scale = 2
 
     # Current frame.
     frame = None
@@ -125,7 +125,7 @@ def stream():
     threading.Thread(target=read_frame_thread).start()
 
     # Send frame every 5 seconds
-    rt = RepeatedTimer(5, send_frame_thread)
+    rt = RepeatedTimer(2, send_frame_thread)
 
     while state.running:
         if state.frame is None:
@@ -134,8 +134,13 @@ def stream():
 
         if state.gan_frame is not None:
             # display frame
-            cv2.imshow('frame', cv2.resize(state.gan_frame, None,
+            cv2.imshow('gan_frame', cv2.resize(state.gan_frame, None,
                                            fx=state.display_scale, fy=state.display_scale))
+
+        if state.frame is not None:
+            # display frame
+            cv2.imshow('frame', cv2.resize(state.frame, None,
+                                            fx=state.display_scale / 2, fy=state.display_scale / 2))
 
         # handle key press events
         process_events()
