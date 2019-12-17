@@ -353,4 +353,4 @@ Finally open `notebook.ipynb` in the cloned repo and select `Python 3` as the ke
 
 **NOTE**: *When running this notebook, you will not need to Git Repo clone (the first new commands).*
 
-**IMPORTANT**: When you are done using the Notebook, make sure to stop it and delete it. This can be done from the Notebook Instance screen. The cost of running these notebooks is **US$329.84 monthly, $0.452 hourly**.
+**IMPORTANT**: When you are done using the Notebook, make sure to stop it and delete it. This can be done from the Notebook Instance screen.
