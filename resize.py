@@ -3,9 +3,9 @@ import os
 import sys
 
 paths = [
-    "dataset/DATASET_NAME/testA/"
-    "dataset/DATASET_NAME/testB/"
-    "dataset/DATASET_NAME/trainA/"
+    "dataset/DATASET_NAME/testA/",
+    "dataset/DATASET_NAME/testB/",
+    "dataset/DATASET_NAME/trainA/",
     "dataset/DATASET_NAME/trainB/"
 ]
 

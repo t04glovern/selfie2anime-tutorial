@@ -9,6 +9,7 @@ import { Duration } from '@aws-cdk/core';
 export interface IFargateService {
   cluster: ecs.Cluster;
   serviceName: string;
+  lightModel: string;
   logPrefix: string;
   port: number;
   containerPort: number;
@@ -69,7 +70,9 @@ export class FargateService extends cdk.Construct {
           '--dataset',
           `${props.serviceName}`,
           '--phase',
-          'web'
+          'web',
+          '--light',
+          `${props.lightModel}`
         ],
         workingDirectory: '/app',
         environment: {

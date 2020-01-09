@@ -57,7 +57,7 @@ If the memory of gpu is **not sufficient**, set `--light` to **True**
 ### Test
 
 ```bash
-python main.py --dataset YOUR_DATASET_NAME --phase test
+python main.py --dataset YOUR_DATASET_NAME --phase test --light True
 ```
 
 ### Test Video
@@ -67,13 +67,13 @@ Make sure to set your video device in the `State` class of `main.py` if you have
 By default it'll use the first video device attached
 
 ```bash
-python main.py --dataset YOUR_DATASET_NAME --phase video
+python main.py --dataset YOUR_DATASET_NAME --phase video --light True
 ```
 
 ### Test Process Endpoint [WIP]
 
 ```bas
-python main.py --dataset YOUR_DATASET_NAME --phase web
+python main.py --dataset YOUR_DATASET_NAME --phase web --light True
 ```
 
 POST to `http://0.0.0.0:5000/process` with the following data format

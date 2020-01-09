@@ -1,12 +1,14 @@
 import ecs = require('@aws-cdk/aws-ecs');
 import cdk = require('@aws-cdk/core');
-import { Vpc, InstanceType, SubnetType } from '@aws-cdk/aws-ec2';
+import { Vpc, InstanceType } from '@aws-cdk/aws-ec2';
 
 import { FargateService } from './service';
 
 // Interface for Fargate Cluster
 export interface IFargateCluster {
   name: string;
+  modelName: string;
+  modelLight: string;
   vpc: Vpc;
 }
 
@@ -28,10 +30,11 @@ export class FargateCluster extends cdk.Construct {
       }
     });
 
-    // Create a new selfie2anime fargate service
-    const selfie2anime_service = new FargateService(this, 'cdk-selfie2anime-api', {
+    // Create a new model fargate service
+    const model_service = new FargateService(this, 'cdk-model-api', {
       cluster,
-      serviceName: 'selfie2anime',
+      serviceName: props.modelName,
+      lightModel: props.modelLight,
       logPrefix: 'fargate/' + cdk.Aws.STACK_NAME,
       port: 80,
       containerPort: 5000

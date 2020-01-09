@@ -8,6 +8,9 @@ export class FargateStack extends cdk.Stack {
   constructor(scope: cdk.Construct, id: string, props?: cdk.StackProps) {
     super(scope, id, props);
 
+    const modelName = this.node.tryGetContext('modelName');
+    const modelLight = this.node.tryGetContext('modelLight');
+
     // VPC Configuration
     const vpc = new ec2.Vpc(this, 'vpc', {
       cidr: '10.160.0.0/16',
@@ -32,7 +35,9 @@ export class FargateStack extends cdk.Stack {
     });
 
     const cluster = new FargateCluster(this, "cluster", {
-      name: 'cdk-selfie2anime-cluster',
+      name: 'cdk-model-cluster',
+      modelName,
+      modelLight,
       vpc: vpc
     })
   }
