@@ -41,7 +41,7 @@ class State:
     # video_device_id = 'http://192.168.0.1:8080/video/mjpeg'
 
     # GAN endpoint for inference
-    gan_endpoint = 'http://api.selfie2anime.com/process'
+    gan_endpoint = 'http://image.selfie2anime.com/process'
 
     # Local render scale factor.
     display_scale = 2
