@@ -128,10 +128,10 @@ def video(args):
     # open session
     with tf.Session(config=tf.ConfigProto(allow_soft_placement=True)) as sess:
         gan = UGATIT(sess, args)
- 
+
         # build graph
         gan.build_model()
- 
+
         # show network architecture
         show_all_variables()
 
