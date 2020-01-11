@@ -13,9 +13,6 @@ class State:
     # can alternatively be a RTSP endpoint
     # video_device_id = 'http://192.168.0.1:8080/video/mjpeg'
 
-    # Local render scale factor.
-    display_scale = 3
-
     # Current frame.
     frame = None
 
@@ -153,7 +150,7 @@ def video(args):
             gen_image = gan.video_inference(frame)
 
             # display frame
-            cv2.imshow('frame', cv2.resize(gen_image, None, fx=state.display_scale, fy=state.display_scale))
+            cv2.imshow('Output', gen_image)
 
             # handle key press events
             process_events()
@@ -192,6 +189,10 @@ def health():
 def main():
     # parse arguments
     args = parse_args()
+
+    # Change to fullscreen
+    cv2.namedWindow('Output', cv2.WND_PROP_FULLSCREEN)
+    cv2.setWindowProperty('Output', cv2.WND_PROP_FULLSCREEN, cv2.WINDOW_FULLSCREEN)
 
     if args is None:
         exit()

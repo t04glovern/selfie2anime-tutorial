@@ -7,5 +7,7 @@ dependencies:
   - pip:
     - opencv-python
     - Pillow
-#    - tensorflow==1.15.0 # CPU support
-    - tensorflow-gpu==1.15.0
+#    - tensorflow==1.14.0 # CPU support
+    - tensorflow-gpu==1.14.0
+    - imutils
+    - Flask

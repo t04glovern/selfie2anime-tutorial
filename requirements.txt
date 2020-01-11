@@ -2,6 +2,7 @@ opencv-python
 matplotlib
 numpy
 Pillow
-flask
-tensorflow-gpu==1.14
+Flask
+imutils
+tensorflow-gpu==1.14.0
 awscli
