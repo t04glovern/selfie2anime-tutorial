@@ -29,28 +29,15 @@ gsettings set org.gnome.Vino require-encryption false
 /usr/lib/vino/vino-server --display=:0
 ```
 
-### Run Daemon
+### Add Autostart
 
-```bash
-cd /etc/systemd/system/
+Add the following to a startup entry under `Startup Application Preferences`
 
-sudo nano vinostartup.service
-# [Unit]
-# Description = description about the service
-# After = network.target
+* **Name**: vino-server
+* **Command**: /usr/lib/vino/vino-server --display=:0
+* **Comment**: VNC Server
 
-# [Service]
-# ExecStart = /usr/lib/vino/vino-server --display=:0
-# Restart = on-failure
-# RestartSec = 5s
-
-# [Install]
-# WantedBy = multi-user.target
-
-sudo systemctl daemon-reload
-sudo systemctl enable vinostartup.service
-sudo systemctl start vinostartup.service
-```
+![Autostart VNC](img/autostart.png)
 
 ## Tensorflow
 
