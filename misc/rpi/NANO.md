@@ -87,6 +87,13 @@ sudo nano /etc/fstab
 sudo reboot
 ```
 
+## Copy desktop links
+
+```bash
+chmod +x ~/selfie2anime-tutorial/misc/rpi/scripts/*
+cp ~/selfie2anime-tutorial/misc/rpi/scripts/* ~/Desktop/
+```
+
 ## Selfie2Model Dependencies
 
 ```bash
