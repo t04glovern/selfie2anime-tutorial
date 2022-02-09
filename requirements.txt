@@ -4,5 +4,5 @@ numpy
 Pillow
 Flask
 imutils
-tensorflow-gpu==1.14.0
+tensorflow-gpu==2.5.3
 awscli
